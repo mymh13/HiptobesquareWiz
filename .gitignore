@@ -1,0 +1,50 @@
+# General
+*.log
+*.tmp
+*.bak
+*.swp
+*.lock
+
+# Developers personal development files
+dold/
+
+# OS-specific files
+.DS_Store
+.Thumbs.db
+desktop.ini
+
+# Sensitive files
+.env
+comegetme.env
+**/secrets.json
+*.key
+*.crt
+
+# Build files
+/bin/
+/obj/
+hiptobesquare/bin/
+hiptobesquare/obj/
+/packages/
+
+# JetBrains Rider
+.idea/
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/.idea_modules/
+.idea/shelf/
+
+# Visual Studio
+*.user
+*.suo
+*.vcxproj.user
+*.pdb
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Logs
+/logs/
+hiptobesquare/logs/
