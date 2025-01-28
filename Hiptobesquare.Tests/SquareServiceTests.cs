@@ -22,9 +22,9 @@ public sealed class SquareServiceTests
     [TestMethod]
     public async Task AddSquare_ShouldAddSquareToDataManager()
     {
-        var squareDto = new SquareDto { Colour = "Red", PositionX = 1, PositionY = 1 };
+        var squareDto = new SquareDto("Red", 1, 1);
 
-        await _squareService.AddSquare(squareDto);
+        await _squareService.AddSquareAsync(squareDto);
         var squares = (await _mockDataManager.ReadSquaresAsync()).ToList();
 
         Assert.AreEqual(1, squares.Count);
@@ -35,7 +35,7 @@ public sealed class SquareServiceTests
     public async Task GetAllSquares_ShouldReturnAllSquares()
     {
         // Arrange
-        var square = new Square { Colour = "Blue", PositionX = 2, PositionY = 2 };
+        var square = new Square(Guid.NewGuid(), "Blue", 2, 2);
         await _mockDataManager.WriteSquareAsync(square);
 
         // Act
@@ -50,7 +50,7 @@ public sealed class SquareServiceTests
     public async Task ClearSquares_ShouldRemoveAllSquares()
     {
         // Arrange
-        var square = new Square { Colour = "Green", PositionX = 3, PositionY = 3 };
+        var square = new Square(Guid.NewGuid(), "Green", 3, 3);
         await _mockDataManager.WriteSquareAsync(square);
 
         // Act
@@ -61,26 +61,59 @@ public sealed class SquareServiceTests
         Assert.AreEqual(0, squares.Count);
     }
 
+    [TestMethod]
+    public async Task ShouldCreateNewJsonFile_WhenMaxFileSizeExceeded()
+    {
+        // Arrange
+        _mockDataManager.SimulateFileSizeLimitReached();
+
+        var newSquare = new SquareDto("Yellow", 5, 5);
+        await _squareService.AddSquareAsync(newSquare);
+
+        // Act
+        var fileCount = _mockDataManager.GetFileCount();
+
+        // Assert
+        Assert.AreEqual(2, fileCount, "A new JSON file should be created when size exceeds 10MB");
+    }
+
     // Mock for DataManager to avoid file I/O in tests
     private sealed class MockDataManager : DataManager
     {
-        private readonly List<Square> _squares = new();
+        private readonly List<List<Square>> _jsonFiles = new();
+        private bool _forceNewFile = false;
+
+        public MockDataManager()
+        {
+            _jsonFiles.Add(new List<Square>()); // Start with one "file"
+        }
 
         public override Task<IEnumerable<Square>> ReadSquaresAsync()
         {
-            return Task.FromResult<IEnumerable<Square>>(_squares);
+            var allSquares = _jsonFiles.SelectMany(x => x);
+            return Task.FromResult<IEnumerable<Square>>(allSquares);
         }
 
         public override Task WriteSquareAsync(Square square)
         {
-            _squares.Add(square);
+            if (_forceNewFile || _jsonFiles.Last().Count >= 1000) // Simulating 10MB limit
+            {
+                _jsonFiles.Add(new List<Square>());
+                _forceNewFile = false;
+            }
+
+            _jsonFiles.Last().Add(square);
             return Task.CompletedTask;
         }
 
         public override Task ClearAllFilesAsync()
         {
-            _squares.Clear();
+            _jsonFiles.Clear();
+            _jsonFiles.Add(new List<Square>()); // Reset to one "file"
             return Task.CompletedTask;
         }
+
+        public void SimulateFileSizeLimitReached() => _forceNewFile = true;
+        public int GetFileCount() => _jsonFiles.Count;
     }
 }

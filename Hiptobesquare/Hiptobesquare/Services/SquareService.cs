@@ -9,25 +9,13 @@ public class SquareService
         _dataManager = dataManager;
     }
     
-    public async Task<IEnumerable<Square>> GetAllSquaresAsync()
-    {
-        return await _dataManager.ReadSquaresAsync();
-    }
+    public async Task<IEnumerable<Square>> GetAllSquaresAsync() => await _dataManager.ReadSquaresAsync();
 
-    public async Task AddSquare(SquareDto squareDto)
+    public async Task AddSquareAsync(SquareDto squareDto)
     {
-        var square = new Square
-        {
-            Colour = squareDto.Colour,
-            PositionX = squareDto.PositionX,
-            PositionY = squareDto.PositionY
-        };
-
+        var square = new Square(Guid.NewGuid(), squareDto.Colour, squareDto.PositionX, squareDto.PositionY);
         await _dataManager.WriteSquareAsync(square);
     }
 
-    public async Task ClearSquaresAsync()
-    {
-        await _dataManager.ClearAllFilesAsync();
-    }
+    public async Task ClearSquaresAsync() => await _dataManager.ClearAllFilesAsync();
 }

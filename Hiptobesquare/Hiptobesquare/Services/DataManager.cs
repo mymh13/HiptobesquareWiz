@@ -16,7 +16,7 @@ public class DataManager
         }
     }
     
-    public virtual async Task<IEnumerable<Square>> ReadSquaresAsync()
+    public async Task<IEnumerable<Square>> ReadSquaresAsync()
     {
         var files = Directory.GetFiles(DataDirectory, "squares_*.json");
         var squares = new List<Square>();
@@ -24,38 +24,34 @@ public class DataManager
         foreach (var file in files)
         {
             var jsonContent = await File.ReadAllTextAsync(file);
-            var deserializedSquares = JsonSerializer.Deserialize<List<Square>>(jsonContent) ?? new List<Square>();
-            squares.AddRange(deserializedSquares);
+            squares.AddRange(JsonSerializer.Deserialize<List<Square>>(jsonContent) ?? new List<Square>());
         }
-        
         return squares;
     }
     
-    public virtual async Task WriteSquareAsync(Square square)
+    public async Task WriteSquareAsync(Square square)
     {
-        var currentFile = GetOrCreateFile();
-        var squares = File.Exists(currentFile) ? JsonSerializer.Deserialize<List<Square>>(await File.ReadAllTextAsync(currentFile)) ?? new List<Square>() : new List<Square>();
-    
-        squares.Add(square);
+        var filePath = GetOrCreateFile();
+        var squares = File.Exists(filePath) 
+            ? JsonSerializer.Deserialize<List<Square>>(await File.ReadAllTextAsync(filePath)) ?? new List<Square>()
+            : new List<Square>();
         
-        await File.WriteAllTextAsync(currentFile, JsonSerializer.Serialize(squares));
+        squares.Add(square);
+        await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(squares));
     }
     
     public virtual async Task ClearAllFilesAsync()
     {
-        var files = Directory.GetFiles(DataDirectory, "squares_*.json");
-        
-        foreach (var file in files)
+        foreach (var file in Directory.GetFiles(DataDirectory, "squares_*.json"))
         {
             File.Delete(file);
         }
         
         // Reset index
-        var indexFile = Path.Combine(DataDirectory, IndexFile);
-        await File.WriteAllTextAsync(indexFile, "[]");
+        await File.WriteAllTextAsync(Path.Combine(DataDirectory, IndexFile), "[]");
     }
     
-    internal string GetOrCreateFile()
+    private string GetOrCreateFile()
     {
         var files = Directory.GetFiles(DataDirectory, "squares_*.json").OrderBy(f => f).ToList();
         var currentFile = files.LastOrDefault();

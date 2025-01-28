@@ -56,17 +56,17 @@
 
 ## Träd och filstruktur för projektet:
 
-/hiptobesquare
-├── /Data
-│   └── squares_1.json      # Lagring av JSON-data.
-├── /Docs
-│   └── docs_backend.md     # Dokumentation för backend.
-├── /Services  
-│   ├── SquareService.cs    # Logik för att hantera kvadrater.
-│   └── DataManager.cs      # Logik för att hantera JSON-filer.
-├── Program.cs              # Minimal API-endpoint-hantering.
-├── Square.cs               # Modell för en kvadrat.
-└── SquareDto.cs            # DTO (Data Transfer Object) för inkommande data.
+/Hiptobesquare  
+├── /Data  
+│   └── squares_1.json      # Lagring av JSON-data.  
+├── /Docs  
+│   └── docs_backend.md     # Dokumentation för backend.  
+├── /Services   
+│   ├── SquareService.cs    # Logik för att hantera kvadrater.  
+│   └── DataManager.cs      # Logik för att hantera JSON-filer.  
+├── Program.cs              # Minimal API-endpoint-hantering.  
+├── Square.cs               # Modell för en kvadrat.  
+└── SquareDto.cs            # DTO (Data Transfer Object) för inkommande data.  
 
 ---
 
@@ -101,7 +101,7 @@ Använder: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis?view=
 
 ## Testers och linters vara eller icke vara..
 
-5. Å ena sidan är tester rätt väg att gå i en skalbar applikation. Å andra sidan är detta program väldigt litet och kommer inte växa. Men, jag tycker tester av kritiska komponenter är viktiga och vill ändå visa på att jag tycker det är en del av strukturen så - det blev ingen TDD, men jag övervägde Unit-tester för logiken (SquareService, DataManager) samt Integrationstester för API-endpoints.
+5. Å ena sidan är tester rätt väg att gå i en skalbar applikation. Å andra sidan är detta program väldigt litet och kommer inte växa. Men, jag tycker tester av kritiska komponenter är viktiga och vill ändå visa på att jag tycker det är en del av strukturen så - det blev ingen TDD, men jag övervägde Unit-tester för logiken (SquareService, DataManager) samt Integrationstester för API-endpoints. Det hade gått utmärkt att bygga ett interface för att inte behöva mocka DataManager, men här valde jag minimalist-approachen genom att ärva och använda DataManager direkt.
 
 - Valde till slut att kompromissa med grundläggande tester för SquareService. Minimalt med kod, förbättrar skalbarhet och visar på att jag värderar/hanterar tekniken. Väljer att hoppa över integrationstesterna. Eftersom jag kör Rider och kodanalys är inbyggd så kör jag ingen external linter.
 
