@@ -51,22 +51,6 @@
 - Vi använder Azure Storage (Blob Storage för JSON-lagring), Logic App för automatiserade arbetsflöden, och Azure Functions för serverless-lösningar. Gratisnivån ger oss 5 gb lagring, 2000 actions och 1 million anrop per månad.
 - JWT är troligen önskvärdigt för autentisering, men vi har inte användarspecifik data så detta tillför en onödig komplexitet. Vi kan istället säkra API-anropen med en API-nyckel.
 - GitHub Actions för CI/CD, vi bygger API:et och distribuerar till Azure Functions.
-  
----
-
-## Träd och filstruktur för projektet:
-
-/Hiptobesquare  
-├── /Data  
-│   └── squares_1.json      # Lagring av JSON-data.  
-├── /Docs  
-│   └── docs_backend.md     # Dokumentation för backend.  
-├── /Services   
-│   ├── SquareService.cs    # Logik för att hantera kvadrater.  
-│   └── DataManager.cs      # Logik för att hantera JSON-filer.  
-├── Program.cs              # Minimal API-endpoint-hantering.  
-├── Square.cs               # Modell för en kvadrat.  
-└── SquareDto.cs            # DTO (Data Transfer Object) för inkommande data.  
 
 ---
 
@@ -105,6 +89,14 @@ Använder: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis?view=
 
 - Valde till slut att kompromissa med grundläggande tester för SquareService. Minimalt med kod, förbättrar skalbarhet och visar på att jag värderar/hanterar tekniken. Väljer att hoppa över integrationstesterna. Eftersom jag kör Rider och kodanalys är inbyggd så kör jag ingen external linter.
 
-6. 
+6. ![testresultat.png](img.png)
+
+- Ville bara testa kritiska moment, som att vi kan hantera över 10mb av JSON-fil.. Testerna går igenom.
+
+## Rate Limiting, Loggning och API-nyckel-autentisering
+
+7. Vid det här laget har vi ett bra ramverk för ett API, jag vill bara lägga till tre moment. Första steget blir Rate Limiting. Lägger den i en separat klass och sätter 30 API-anrop per 10 sekunder per IP-adress som initial config.
+
+8. Implementerar loggning och exception handling via Serilog, även det i en separat klass.
 
 ---
