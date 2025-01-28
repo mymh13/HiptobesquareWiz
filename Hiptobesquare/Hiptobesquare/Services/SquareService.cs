@@ -1,13 +1,8 @@
 ﻿namespace Hiptobesquare.Services;
 
-public class SquareService
+public class SquareService(DataManager dataManager)
 {
-    private readonly DataManager _dataManager;
-
-    public SquareService(DataManager dataManager)
-    {
-        _dataManager = dataManager;
-    }
+    private readonly DataManager _dataManager = dataManager;
     
     public async Task<IEnumerable<Square>> GetAllSquaresAsync() => await _dataManager.ReadSquaresAsync();
 

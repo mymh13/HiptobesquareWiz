@@ -16,7 +16,7 @@ public class DataManager
         }
     }
     
-    public async Task<IEnumerable<Square>> ReadSquaresAsync()
+    public virtual async Task<IEnumerable<Square>> ReadSquaresAsync()
     {
         var files = Directory.GetFiles(DataDirectory, "squares_*.json");
         var squares = new List<Square>();
@@ -29,7 +29,7 @@ public class DataManager
         return squares;
     }
     
-    public async Task WriteSquareAsync(Square square)
+    public virtual async Task WriteSquareAsync(Square square)
     {
         var filePath = GetOrCreateFile();
         var squares = File.Exists(filePath) 
