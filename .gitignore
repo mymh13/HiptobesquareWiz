@@ -22,9 +22,14 @@ comegetme.env
 
 # Build files
 /bin/
+Hiptobesquare/bin/
+Hiptobesquare/Hiptobesquare/bin/
 /obj/
-hiptobesquare/bin/
-hiptobesquare/obj/
+Hiptobesquare/obj/
+Hiptobesquare/Hiptobesquare/obj/
+Hiptobesquare.Tests/obj/
+Hiptobesquare.Tests/bin/
+
 /packages/
 
 # JetBrains Rider
