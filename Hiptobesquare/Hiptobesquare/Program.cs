@@ -1,21 +1,15 @@
 ﻿using Hiptobesquare.Services;
 using Hiptobesquare;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Rate Limiting to restrict the number of requests to the API
-builder.Services.AddRateLimiter(options =>
-{
-    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
-        RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            factory: _ => new FixedWindowRateLimiterOptions
-            {
-                PermitLimit = 30,
-                Window = TimeSpan.FromSeconds(10)
-            }
-        ));
-});
+// Configure Logging
+LoggingService.Configure(builder);
+
+// Configure Rate Limiting
+RateLimitingService.Configure(builder);
 
 builder.Services.AddSingleton<DataManager>();
 builder.Services.AddSingleton<SquareService>();
@@ -23,7 +17,14 @@ builder.Services.AddTransient<Startup>();
 
 var app = builder.Build();
 
+// Enable Logging Middleware
+app.UseLoggingMiddleware();
+
+// Enable Rate Limiting
 app.UseRateLimiter();
+
+// Enable Global Exception Handling Middleware
+app.UseExceptionHandlerMiddleware();
 
 using (var scope = app.Services.CreateScope())
 {
