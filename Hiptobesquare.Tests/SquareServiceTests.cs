@@ -1,6 +1,6 @@
 namespace Hiptobesquare.Tests;
 
-using Hiptobesquare.Services;
+using Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -81,7 +81,7 @@ public sealed class SquareServiceTests
     private sealed class MockDataManager : DataManager
     {
         private readonly List<List<Square>> _jsonFiles = new();
-        private bool _forceNewFile = false;
+        private bool _forceNewFile;
 
         public MockDataManager()
         {
@@ -91,7 +91,7 @@ public sealed class SquareServiceTests
         public override Task<IEnumerable<Square>> ReadSquaresAsync()
         {
             var allSquares = _jsonFiles.SelectMany(x => x);
-            return Task.FromResult<IEnumerable<Square>>(allSquares);
+            return Task.FromResult(allSquares);
         }
 
         public override Task WriteSquareAsync(Square square)
