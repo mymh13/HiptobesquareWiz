@@ -97,6 +97,10 @@ Använder: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis?view=
 
 7. Vid det här laget har vi ett bra ramverk för ett API, jag vill bara lägga till tre moment. Första steget blir Rate Limiting. Lägger den i en separat klass och sätter 30 API-anrop per 10 sekunder per IP-adress som initial config.
 
-8. Implementerar loggning och exception handling via Serilog, även det i en separat klass.
+8. Implementerar loggning och exception handling via Serilog, även det i en separat klass. Valde bort JWT i ett tidigare skede, väljer bort även API-nyckel-autentisering nu, har vi ingen inloggningsfunktion känns detta som overkill.
 
 ---
+
+## Summering
+
+Jag valde att bygga backend efter en minimal-API pattern. De stora utmaningarna och kruxet i den här uppgiften är egentligen "potentiellt skalbart i oändlighet"-parametern. Min lösning blir att dela upp JSON-filen i mindre filer när den når en viss storlek. För att få en bra användarupplevelse kommer jag bygga kvadraterna i backend men cacha och rendera dem i frontend. Håller ner kod och testning till ett minimum utan att kompromissa bort huvudfunktionerna.
