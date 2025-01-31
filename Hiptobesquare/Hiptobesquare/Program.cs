@@ -2,34 +2,75 @@
 using Hiptobesquare;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Logging
-LoggingService.Configure(builder);
+// Configure JSON settings
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null; // Prevent camelCase conversion
+});
 
-// Configure Rate Limiting
+// Configure Kestrel server settings
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5000); // HTTP
+    options.ListenAnyIP(5001, listenOptions => listenOptions.UseHttps()); // HTTPS
+});
+
+// Configure logging and rate limiting
+LoggingService.Configure(builder);
 RateLimitingService.Configure(builder);
 
+// Register application services
 builder.Services.AddSingleton<DataManager>();
 builder.Services.AddSingleton<SquareService>();
-builder.Services.AddTransient<Startup>();
 
 var app = builder.Build();
 
-// Enable Logging Middleware
+// Enable CORS (for future frontend integration)
+app.UseCors(policy =>
+    policy.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+
+// Enable necessary middlewares
 app.UseLoggingMiddleware();
-
-// Enable Rate Limiting
 app.UseRateLimiter();
-
-// Enable Global Exception Handling Middleware
 app.UseExceptionHandlerMiddleware();
 
-using (var scope = app.Services.CreateScope())
+// Call Startup.Configure to register API endpoints
+var startup = new Startup();
+startup.Configure(app);
+
+// Log API startup information
+foreach (var endpoint in app.Urls)
 {
-    var startup = scope.ServiceProvider.GetRequiredService<Startup>();
-    startup.Configure(app);
+    Console.WriteLine($"API running on {endpoint}");
+    Console.WriteLine("API started...");
 }
+
+// Global request logging middleware
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Incoming request: {context.Request.Method} {context.Request.Path}");
+    await next();
+});
+
+// Global exception handling
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"API error: {ex.Message}");
+        Console.WriteLine(ex.StackTrace);
+        throw; // Propagate the exception
+    }
+});
 
 app.Run();
