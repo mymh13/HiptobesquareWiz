@@ -1,6 +1,5 @@
 ﻿namespace Hiptobesquare;
 
-// Data Transfer Object used for incoming data
 public class SquareDto
 {
     public string Colour { get; set; } = "";

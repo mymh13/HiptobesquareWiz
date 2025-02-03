@@ -1,12 +1,8 @@
 ﻿using Hiptobesquare.Services;
-using Hiptobesquare;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure JSON settings
+// Configure JSON serialization settings
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null; // Prevent camelCase conversion
@@ -25,11 +21,12 @@ RateLimitingService.Configure(builder);
 
 // Register application services
 builder.Services.AddSingleton<DataManager>();
+builder.Services.AddLogging();
 builder.Services.AddSingleton<SquareService>();
 
 var app = builder.Build();
 
-// Enable CORS (for future frontend integration)
+// Enable CORS (for frontend integration)
 app.UseCors(policy =>
     policy.AllowAnyOrigin()
         .AllowAnyMethod()
@@ -40,36 +37,27 @@ app.UseLoggingMiddleware();
 app.UseRateLimiter();
 app.UseExceptionHandlerMiddleware();
 
-// Call Startup.Configure to register API endpoints
-var startup = new Startup();
-startup.Configure(app);
+// Register API controllers
+app.MapControllers();
 
 // Log API startup information
 foreach (var endpoint in app.Urls)
 {
     Console.WriteLine($"API running on {endpoint}");
-    Console.WriteLine("API started...");
 }
 
-// Global request logging middleware
-app.Use(async (context, next) =>
-{
-    Console.WriteLine($"Incoming request: {context.Request.Method} {context.Request.Path}");
-    await next();
-});
-
-// Global exception handling
+// Global middleware for request logging and exception handling
 app.Use(async (context, next) =>
 {
     try
     {
+        Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
         await next();
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"API error: {ex.Message}");
-        Console.WriteLine(ex.StackTrace);
-        throw; // Propagate the exception
+        Console.WriteLine($"API error: {ex.Message}\n{ex.StackTrace}");
+        throw;
     }
 });
 
