@@ -1,15 +1,19 @@
 ﻿namespace Hiptobesquare.Services;
 
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 public class DataManager
 {
     private const string DataDirectory = "Data";
     private const string IndexFile = "index.json";
     private const long MaxFileSize = 10 * 1024 * 1024; // 10 Mb
+    private readonly ILogger<DataManager> _logger;
     
-    public DataManager()
+    public DataManager(ILogger<DataManager> logger)
     {
+        _logger = logger;
+        
         if (!Directory.Exists(DataDirectory))
         {
             Directory.CreateDirectory(DataDirectory);
@@ -27,9 +31,9 @@ public class DataManager
             {
                 var jsonContent = await File.ReadAllTextAsync(file);
                 
-                if (string.IsNullOrWhiteSpace(jsonContent)) 
+                if (string.IsNullOrWhiteSpace(jsonContent))
                 {
-                    Console.WriteLine($"Skipping empty file: {file}");
+                    _logger.LogWarning($"Skipping empty file: {file}");
                     continue;
                 }
 
@@ -43,7 +47,7 @@ public class DataManager
                 }
                 catch (JsonException jsonEx)
                 {
-                    Console.WriteLine($"JSON Error in {file}: {jsonEx.Message}");
+                    _logger.LogError(jsonEx, $"JSON Error deserializing file: {jsonEx.Message}");
                 }
             }
             
@@ -51,7 +55,7 @@ public class DataManager
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error reading squares: {ex.Message}");
+            _logger.LogError($"Error reading squares: {ex.Message}");
             return new List<Square>();
         }
     }
@@ -72,7 +76,7 @@ public class DataManager
                 }
                 catch (JsonException jsonEx)
                 {
-                    Console.WriteLine($"Deserialization error: {jsonEx.Message}");
+                    _logger.LogError($"Deserialization error in {filePath}: {jsonEx.Message}");
                 }
             }
 
@@ -83,7 +87,7 @@ public class DataManager
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error writing square: {ex.Message}");
+            _logger.LogError($"Error writing square: {ex.Message}");
         }
     }
     
@@ -95,12 +99,11 @@ public class DataManager
             {
                 File.Delete(file);
             }
-
             await File.WriteAllTextAsync(Path.Combine(DataDirectory, IndexFile), "[]");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error clearing square files: {ex.Message}");
+            _logger.LogError($"Error clearing files: {ex.Message}");
         }
     }
 
