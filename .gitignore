@@ -53,3 +53,35 @@ Hiptobesquare.Tests/bin/
 # Logs
 /logs/
 hiptobesquare/logs/
+
+# Node modules
+node_modules/
+hiptobesquare-frontend/node_modules/
+hiptobesquare-frontend/tailwindcss4/node_modules/
+
+# Build files
+hiptobesquare-frontend/tailwindcss4/dist/
+
+# Vite specific files
+.vite/
+.vite-cache/
+hiptobesquare-frontend/tailwindcss4/.vite/
+
+# Dependency lock files
+hiptobesquare-frontend/package-lock.json
+hiptobesquare-frontend/tailwindcss4/package-lock.json
+
+# ESLint cache
+hiptobesquare-frontend/tailwindcss4/.eslintcache
+
+# Tailwind and PostCSS cache
+hiptobesquare-frontend/tailwindcss4/.tailwindcache
+hiptobesquare-frontend/tailwindcss4/postcss.config.js
+hiptobesquare-frontend/tailwindcss4/tailwind.config.js
+
+# Public & generated files
+hiptobesquare-frontend/tailwindcss4/public/
+hiptobesquare-frontend/tailwindcss4/assets/
+
+# VS Code specific
+hiptobesquare-frontend/tailwindcss4/.vscode/
