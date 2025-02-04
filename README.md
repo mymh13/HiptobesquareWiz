@@ -13,11 +13,12 @@ Tack för att du läste, lycka till med projektet om du bestämmer dig för att 
 
 ## Mapp- och filstruktur
 
-Hiptobesquare/
+Hiptobesquare/  
 ├── Docs/  
 │   ├── docs_backend.md             # Dokumentation för backend  
+│   ├── docs_frontend.md            # Dokumentation för frontend  
 │   └── docs_problems.md            # Dokumentation av problem under utvecklingsprocessen  
-│
+│  
 ├── Hiptobesquare/  
 │   ├── Data/  
 │   │   └── squares_1.json          # Lagring av JSON-data  
@@ -33,14 +34,13 @@ Hiptobesquare/
 │   ├── Startup.cs                  # Registrerar API-endpoints  
 │   ├── Square.cs                   # Modell för en kvadrat  
 │   └── SquareDto.cs                # DTO för inkommande data  
-│
+│  
 ├── Hiptobesquare.Tests/  
 │   ├── Services/  
 │   │   ├── MSTestSettings.cs       # Inställningar för MSTest  
 │   │   └── SquareServiceTests.cs   # Test av SquareService  
 │   │  
 │   └── Logs/                       # Loggfiler från tester   
-│
-├── .gitignore                      # Ignorerade filer i Git  
+│   
 ├── LICENSE                         # Projektlicens  
 └── README.md                       # Dokumentation och projektinfo  

@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+button {
+  border-radius: 8px;
+  border: 1px solid #92cabd;
+  padding: 0.6em 1.2em;
+  margin: 15px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #4ec9b0;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.container {
+    /*max-width: 1200px;*/
+    margin: 15px auto;
+    padding: 5px;
+    border-radius: 12px;
+    background-color: #000000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
