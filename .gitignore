@@ -70,6 +70,8 @@ hiptobesquare-frontend/tailwindcss4/.vite/
 # Dependency lock files
 hiptobesquare-frontend/package-lock.json
 hiptobesquare-frontend/tailwindcss4/package-lock.json
+hiptobesquare-frontend/yarn.lock
+hiptobesquare-frontend/tailwindcss4/yarn.lock
 
 # ESLint cache
 hiptobesquare-frontend/tailwindcss4/.eslintcache
@@ -85,3 +87,18 @@ hiptobesquare-frontend/tailwindcss4/assets/
 
 # VS Code specific
 hiptobesquare-frontend/tailwindcss4/.vscode/
+
+# Additional ignores
+hiptobesquare-frontend/tailwindcss4/.gitignore
+hiptobesquare-frontend/tailwindcss4/README.md
+hiptobesquare-frontend/tailwindcss4/index.html
+
+# MacOS & Windows systemfiler
+*.DS_Store
+*.Thumbs.db
+
+# NPM debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
