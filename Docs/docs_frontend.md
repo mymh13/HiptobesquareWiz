@@ -63,3 +63,7 @@
 
 4. Väljer att rensa index.css och App.css för att hålla dem till ett minimum. Jag vill ha en så ren struktur som möjligt. Eftersom vi har så få element i denna app kan vi lägga global design i App.css och styla element direkt i App.jsx.
 
+5. Design choice: Jag skapar containers för att presentera sidan istället för en mono-färg-bakgrund, det ställer till det när vi skall kunna skala kvadrater i oändlighet. Men jag vill kopia min hemsidas design för att göra detta mer personligt. Löser detta genom att sätta overflow-x: auto och white-space:nowrap för att låta kvadraterna expandera bortom containern och att inte wrappa dem.
+
+6. Nu när jag har back- och frontend som pratar med varandra och kan addera kvadrater på vår sida, då är det dags att tänka igenom en lösning för hur kvadraterna får sin position. Initialt skapade jag X och Y-värden i kvadratens klass i backend, men det gör det mer krävande att beräkna nu, och framför allt: vi skulle kunna skala oändligt, om vi kör på värdena så sätts det en begränsning i storleken på variabeln..
+- Lösningen jag tar till är att jag kör en positioneringslogik som beräknas i React, då kan jag även ta bort X- och Y-värdena från kvadraterna (behåller ID för det gör dem unika för React).
