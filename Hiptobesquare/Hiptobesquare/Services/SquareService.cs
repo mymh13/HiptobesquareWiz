@@ -19,7 +19,7 @@ public class SquareService(DataManager dataManager)
     
     public async Task AddSquareAsync(SquareDto squareDto)
     {
-        var square = new Square(Guid.NewGuid(), squareDto.Colour);
+        var square = new Square(Guid.NewGuid(), squareDto.Colour, squareDto.PositionX, squareDto.PositionY);
         await _dataManager.WriteSquareAsync(square);
     }
 

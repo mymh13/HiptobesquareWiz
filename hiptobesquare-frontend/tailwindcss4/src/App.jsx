@@ -1,59 +1,40 @@
 import { useState, useEffect } from 'react';
-import './App.css'
 
-// Backend API URL
-const API_URL = "http://localhost:5000/squares";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const generateRandomColour = (prevColour) => {
     let colour;
     do {
         colour = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`.toUpperCase();
-    } while (colour === prevColour); // Ensure it differs from the last one
+    } while (colour === prevColour);
     return colour;
 };
 
 function App() {
     const [squares, setSquares] = useState([]);
 
-    // Log state updates every time squares change
+    // Fetch squares from API on page load
     useEffect(() => {
-        console.log("Updated squares state:", squares);
-    }, [squares]);
-    
-    // Function to fetch squares on page load
-    useEffect(() => {
-        let ignore = false;
         fetch(API_URL)
             .then((response) => response.json())
-            .then((data) => {
-                if (!ignore) {
-                    console.log("Fetched squares:", data);
-                    setSquares(data);
-                }
-            })
+            .then((data) => setSquares(data))
             .catch((error) => console.error("Error fetching squares:", error));
-
-        return () => { ignore = true; }; // Cleanup function to prevent multiple calls
     }, []);
 
     const calculateNextPosition = (squares) => {
         const count = squares.length;
-        if (count === 0) return { x: 0, y: 0 }; // First square at (0,0)
+        if (count === 0) return { x: 0, y: 0 };
 
-        let level = Math.floor(Math.sqrt(count)); // Defines the level of the square
+        let level = Math.floor(Math.sqrt(count));
         let x, y;
 
         if (count < (level + 1) ** 2 - level) {
-            // Fill horizontally first
-            x = count - level ** 2;
-            y = level;
-        } else {
-            // Then fill vertically downward
             x = level;
-            y = count - ((level + 1) ** 2 - level);
+            y = count - ((level) ** 2);
+        } else {
+            x = (level - 1) - (count - ((level + 1) ** 2 - level));
+            y = level;
         }
-
-        console.log(`Calculated Position: x=${x}, y=${y}`);
 
         return { x, y };
     };
@@ -78,29 +59,20 @@ function App() {
                 body: JSON.stringify(newSquare),
             });
 
-            setSquares((prevSquares) => {
-                const updatedSquares = [...prevSquares, newSquare];
-                console.log("Updated squares state:", updatedSquares);
-                return updatedSquares;
-            });
-            setSquares(squares => [...squares]);  // Force React re-render
-
-        } catch (error) {
+            setSquares((prevSquares) => [...prevSquares, newSquare]);
+            } catch (error) {
             console.error("Error saving square:", error);
         }
     };
     
-    // Clear all squares
     const clearSquares = async () => {
         await fetch(API_URL, { method: "DELETE" });
-        setSquares([]); // Update the squares state to remove all squares
+        setSquares([]);
     };
-
-    console.log("Rendering squares:", squares.map(s => `Id: ${s.Id}, PosX: ${s.PositionX}, PosY: ${s.PositionY}`));
 
     return (
         <div className="container flex flex-col items-center min-h-screen px-6">
-        {/* Top section, for top people */}
+        {/* Top section, for top coders */}
             <div className="w-full max-w-4xl text-center py-6 px-8 bg-[#292929] rounded-xl shadow-lg">
                 <a
                     href="https://mymh.dev/"
@@ -114,14 +86,8 @@ function App() {
 
                 {/* Buttons BUTTONS EVERYWHERE! */}
                 <div className="mt-6 flex gap-8 justify-center border border-[#4ec9b0] px-4 py-4">
-                    <button className="bg-[#1a1a1a] text-[#4ec9b0] px-10 py-4 rounded-xl font-bold shadow-lg text-2xl
-                    hover:bg-[#333333] transition transform hover:scale-105" onClick={addSquare}>
-                        Add square
-                    </button>
-                    <button className="bg-[#1a1a1a] text-[#4ec9b0] px-10 py-4 rounded-xl font-bold shadow-lg text-2xl
-                    hover:bg-[#333333] transition transform hover:scale-105" onClick={clearSquares}>
-                        Clear
-                    </button>
+                    <button className="button" onClick={addSquare}>Add square</button>
+                    <button className="button" onClick={clearSquares}>Clear</button>
                 </div>
             </div>
 
@@ -129,20 +95,29 @@ function App() {
             <div className="h-4"></div>
 
             {/* Squareing up */}
-            <div className="relative w-full h-full bg-[#292929] rounded-xl shadow-lg mt-4">
-            {/*<div className="w-full overflow-x-auto h-full flex flex-wrap justify-center items-start p-4 bg-[#292929] rounded-xl shadow-lg mt-4 gap-2">*/}
-                { squares.map((square) => (
-                    <div
-                        key={square.Id}
-                        className="w-16 h-16 border border-black rounded-md absolute"
-                        style={{
-                            backgroundColor: square.Colour || "#ff0000", // Fallback color
-                            left: `${square.PositionX * 72}px`,  // Use `left` instead of translate
-                            top: `${square.PositionY * 72}px`,   // Use `top` instead of translate
-                            transition: "top 0.2s ease-in-out, left 0.2s ease-in-out",
-                        }}
-                    />
-                ))}
+            <div className="relative w-full flex justify-center items-start p-4 bg-[#292929] rounded-xl shadow-lg mt-4"
+                 style={{
+                     height: `${Math.ceil(Math.sqrt(squares.length)) * 72}px`,
+                     minHeight: "500px",
+                 }}
+            >
+                <div className="relative">
+                    {squares.map((square) => {
+                        const gridWidth = Math.ceil(Math.sqrt(squares.length)) * 72;
+                        return (
+                            <div
+                                key={square.Id}
+                                className="absolute w-16 h-16 border border-black rounded-md"
+                                style={{
+                                    backgroundColor: square.Colour || "#ff0000",
+                                    left: `calc(50% - ${gridWidth / 2}px + ${square.PositionX * 72}px)`,
+                                    top: `${square.PositionY * 72}px`,
+                                    transition: "transform 0.2s ease-in-out",
+                                }}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
