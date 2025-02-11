@@ -28,7 +28,7 @@ var app = builder.Build();
 
 // Enable CORS (for frontend integration)
 app.UseCors(policy =>
-    policy.AllowAnyOrigin()
+    policy.WithOrigins("http://localhost:5173") // Eller den port din frontend kör på
         .AllowAnyMethod()
         .AllowAnyHeader());
 
