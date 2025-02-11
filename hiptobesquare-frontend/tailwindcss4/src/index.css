@@ -2,6 +2,12 @@
 @import "tailwindcss/preflight";
 @tailwind utilities;
 
+body {
+    background-color: #000000;
+    color: #4ec9b0;
+    font-family: 'Fira Code', monospace;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid #92cabd;
@@ -30,7 +36,16 @@ button:focus-visible {
     border-radius: 12px;
     background-color: #000000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    overflow-x: auto; /* Allows the squares to expand beyond the container */
+    overflow-x: auto;
     overflow-y: auto;
-    white-space: nowrap; /* Prevents the squares from wrapping */
+    white-space: nowrap;
+}
+
+.square {
+    width: 64px;
+    height: 64px;
+    border: 1px solid black;
+    border-radius: 4px;
+    position: absolute;
+    transition: transform 0.2s ease-in-out;
 }

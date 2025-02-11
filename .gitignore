@@ -14,7 +14,9 @@ dold/
 desktop.ini
 
 # Sensitive files
-.env
+.env*
+.env.development
+.env.production
 comegetme.env
 **/secrets.json
 *.key
