@@ -13,11 +13,7 @@ public class DataManager
     public DataManager(ILogger<DataManager> logger)
     {
         _logger = logger;
-        
-        if (!Directory.Exists(DataDirectory))
-        {
-            Directory.CreateDirectory(DataDirectory);
-        }
+        Directory.CreateDirectory(DataDirectory);
     }
     
     public virtual async Task<IEnumerable<Square>> ReadSquaresAsync()

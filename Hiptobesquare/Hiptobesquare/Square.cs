@@ -2,8 +2,8 @@
 
 public record Square(Guid Id, string Colour, int PositionX, int PositionY)
 {
-    public Guid GetId() => Id;
-    public string GetColour() => Colour;
-    public int GetPositionX() => PositionX;
-    public int GetPositionY() => PositionY;
+    public Guid Id { get; init; } = Id;
+    public string Colour { get; init; } = Colour;
+    public int PositionX { get; init; } = PositionX;
+    public int PositionY { get; init; } = PositionY;
 }

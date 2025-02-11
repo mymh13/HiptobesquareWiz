@@ -20,7 +20,7 @@ public class SquareController(SquareService squareService) : ControllerBase
     public async Task<IActionResult> AddSquare([FromBody] SquareDto squareDto)
     {
         await _squareService.AddSquareAsync(squareDto);
-        return Ok(new { message = "Square added", square = squareDto });
+        return Ok();
     }
 
     [HttpDelete]
