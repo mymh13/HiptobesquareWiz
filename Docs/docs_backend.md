@@ -104,3 +104,14 @@ Använder: https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis?view=
 ## Summering
 
 Jag valde att bygga backend efter en minimal-API pattern. De stora utmaningarna och kruxet i den här uppgiften är egentligen "potentiellt skalbart i oändlighet"-parametern. Min lösning blir att dela upp JSON-filen i mindre filer när den når en viss storlek. För att få en bra användarupplevelse kommer jag bygga kvadraterna i backend men cacha och rendera dem i frontend. Håller ner kod och testning till ett minimum utan att kompromissa bort huvudfunktionerna.
+
+---
+
+## Refaktorering och förbättringar
+
+1. Initialt gör jag backend deploymentredo genom att ändra hårdkodade värden till dynamiska .env-variabler. Jag skapar en .env-fil och lägger in värdena där, sedan läser jag in dem i programmet.
+2. Jag går igenom fil för fil för att se var det går att optimera kod och ser över kommentarer och dokumentation.
+- SquareDto.cs: Håller ner kodrader i konstruktorn genom en lambda.
+- DataManager.cs: Alla fil-operationer har try-catch och loggning, jag skulle kunna låta exceptions bubbla upp till ytan. Vad är god pratice? Jag gillar att hantera exceptions och kontrollera logfiler, men vi skulle även köra minimalistiskt?
+- SquareService.cs: Snarlikt ovan, jag tar bort try-catch och loggning och låter exceptions hanteras av middleware.
+- SquareController.cs: Tog bort konfirmations-log, den användes under produktionsfasen för att se att allt fungerade som det skulle.

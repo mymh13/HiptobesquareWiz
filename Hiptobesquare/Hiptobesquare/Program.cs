@@ -1,18 +1,27 @@
-﻿using Hiptobesquare.Services;
+﻿using dotenv.net;
+using Hiptobesquare.Services;
+
+// Load environment variables from .env file
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure JSON serialization settings
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.PropertyNamingPolicy = null; // Prevent camelCase conversion
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
-// Configure Kestrel server settings
+// Load Environment Variables
+var frontendUrl = builder.Configuration["FRONTEND_URL"] ?? "http://localhost:5173";
+var port = builder.Configuration["API_PORT"] ?? "5000";
+var httpsPort = builder.Configuration["API_HTTPS_PORT"] ?? "5001";
+
+// Configure Kestrel dynamically based on environment
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(5000); // HTTP
-    options.ListenAnyIP(5001, listenOptions => listenOptions.UseHttps()); // HTTPS
+    options.ListenAnyIP(int.Parse(port)); // HTTP
+    options.ListenAnyIP(int.Parse(httpsPort), listenOptions => listenOptions.UseHttps()); // HTTPS
 });
 
 // Configure logging and rate limiting
@@ -28,7 +37,7 @@ var app = builder.Build();
 
 // Enable CORS (for frontend integration)
 app.UseCors(policy =>
-    policy.WithOrigins("http://localhost:5173") // Eller den port din frontend kör på
+    policy.WithOrigins(frontendUrl)
         .AllowAnyMethod()
         .AllowAnyHeader());
 

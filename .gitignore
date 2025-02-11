@@ -14,9 +14,9 @@ dold/
 desktop.ini
 
 # Sensitive files
-.env*
-.env.development
+.env
 .env.production
+Hiptobesquare/Hiptobesquare/.env.production
 comegetme.env
 **/secrets.json
 *.key
