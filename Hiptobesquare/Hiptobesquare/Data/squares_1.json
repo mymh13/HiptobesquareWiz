@@ -1,8 +1,102 @@
 [
   {
-    "Id": "c98ff63a-5ea5-4357-a7c6-e3817932955a",
-    "Colour": "#ff0000",
-    "PositionX": 0,
-    "PositionY": 0
+    "Id": "cd757550-6af7-49ae-830a-06de98d75b34",
+    "Colour": "#58FBC8"
+  },
+  {
+    "Id": "20914870-48ee-49a4-b0de-bca13982173d",
+    "Colour": "#C7E72D"
+  },
+  {
+    "Id": "ddbb1341-8d02-4bb8-b541-b0c3b07b8693",
+    "Colour": "#68559B"
+  },
+  {
+    "Id": "96b8883e-4590-4fee-84c9-0d59d3c8f471",
+    "Colour": "#C254F2"
+  },
+  {
+    "Id": "1a88fa16-84b2-4a9f-8215-492e1ab505c0",
+    "Colour": "#F87CBF"
+  },
+  {
+    "Id": "3606497b-cfd0-443e-9241-bab63184b09f",
+    "Colour": "#53554E"
+  },
+  {
+    "Id": "33039b19-85f9-45ec-b779-bbc9dee9c33b",
+    "Colour": "#E91D51"
+  },
+  {
+    "Id": "56affb7f-11a1-4352-bbcb-d7db3f6b2ff8",
+    "Colour": "#523A51"
+  },
+  {
+    "Id": "b415c379-94b2-427a-a05d-b3d3e7f234b5",
+    "Colour": "#4F46F9"
+  },
+  {
+    "Id": "2b7da7a8-712a-43f3-8d8b-2d159933522a",
+    "Colour": "#AC2EEA"
+  },
+  {
+    "Id": "d58335bf-216b-4b06-83e2-a0b4187064d7",
+    "Colour": "#126711"
+  },
+  {
+    "Id": "1afa2415-d75f-4f34-80b8-838daadd2571",
+    "Colour": "#EE1C8F"
+  },
+  {
+    "Id": "a95c0bbd-e8f8-47d9-ac85-efe857a3b6fe",
+    "Colour": "#361A7B"
+  },
+  {
+    "Id": "4aa985df-ff43-41bd-99e6-14870e1d8064",
+    "Colour": "#41BAB6"
+  },
+  {
+    "Id": "8d50c780-8496-4fb7-b101-a0f17265884c",
+    "Colour": "#2E630C"
+  },
+  {
+    "Id": "39503115-bf00-443a-a96f-3d0ec1f89b08",
+    "Colour": "#8DE37F"
+  },
+  {
+    "Id": "da0f81f6-cc29-4d90-8361-613e75681ad6",
+    "Colour": "#BD049F"
+  },
+  {
+    "Id": "5e2b42a0-8db0-4ce9-a6e7-13f691eb3bcc",
+    "Colour": "#DF384B"
+  },
+  {
+    "Id": "f90c6b32-7554-4af4-a53d-e8a185410ca7",
+    "Colour": "#B1192E"
+  },
+  {
+    "Id": "9edadaa9-978f-4665-82c6-eaf3f2dfd708",
+    "Colour": "#1E34DE"
+  },
+  {
+    "Id": "d2e59ea6-e6a5-4c64-b792-d0ca07968df6",
+    "Colour": "#A952AF"
+  },
+  {
+    "Id": "061437e8-af63-4cfb-ae14-f0764cc3ff96",
+    "Colour": "#017825"
+  },
+  {
+    "Id": "8cbc1f1d-33dc-4970-ae15-2bc51da634c7",
+    "Colour": "#9AB35D"
+  },
+  {
+    "Id": "94f2dd8d-83fc-4476-8185-ecb6f7dcc8d2",
+    "Colour": "#DB259F"
+  },
+  {
+    "Id": "b260f3da-ec52-4c85-8ffb-3dc22e0de95b",
+    "Colour": "#C1B4E4"
   }
 ]

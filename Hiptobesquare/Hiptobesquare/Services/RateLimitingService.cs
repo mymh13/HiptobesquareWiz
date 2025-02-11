@@ -14,8 +14,9 @@ public static class RateLimitingService
                     context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
-                        PermitLimit = 25,
+                        PermitLimit = 40,
                         Window = TimeSpan.FromSeconds(10)
+                        // We allow 40 clicks per 10 seconds
                     }
                 ));
         });
