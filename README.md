@@ -18,15 +18,15 @@ Hiptobesquare/
 │   ├── docs_backend.md             # Dokumentation för backend  
 │   ├── docs_frontend.md            # Dokumentation för frontend  
 │   ├── docs_problems.md            # Dokumentation av problem under utvecklingsprocessen  
-│   └── docs_summary.md             # Sammanfattning av projektet 
+│   └── docs_summary.md             # Sammanfattning av projektet  
 │  
 ├── Hiptobesquare/  
 │   ├── Controllers/  
-│   │   └── SquareController.cs      # API-Controller för kvadrater  
+│   │   └── SquareController.cs     # API-Controller för kvadrater  
 │   │  
 │   ├── Data/  
-│   │   ├── squares_1.json           # JSON-fil för kvadrater  
-│   │   └── index.json               # Index-fil för JSON-lagring  
+│   │   ├── squares_1.json          # JSON-fil för kvadrater  
+│   │   └── index.json              # Index-fil för JSON-lagring  
 │   │    
 │   ├── Logs/                       # Loggfiler för API och anslutningar  
 │   │  
@@ -53,12 +53,13 @@ Hiptobesquare/
 ├── hiptobesquare-frontend/  
 │   ├── tailwindcss4/  
 │   │   ├── src/  
-│   │   │   ├── App.jsx              # React huvudkomponent  
-│   │   │   ├── index.css            # Global CSS  
-│   │   │   ├── App.css              # Specifik CSS för App  
-│   │   │   └── main.jsx             # React entry-point  
-│   │   ├── .env.development         # Frontend miljövariabler för lokal utveckling  
-│   │   └── .env.production          # Frontend miljövariabler för produktion  
+│   │   │   ├── App.jsx             # React huvudkomponent  
+│   │   │   ├── index.css           # Global CSS   
+│   │   │   └── main.jsx            # React entry-point  
+│   │   ├── .env.development        # Frontend-miljövariabler för lokal utveckling  
+│   │   └── .env.production         # Frontend-miljövariabler för produktion  
 │  
 ├── LICENSE                         # Projektlicens  
 └── README.md                       # Dokumentation och projektinfo  
+
+---
