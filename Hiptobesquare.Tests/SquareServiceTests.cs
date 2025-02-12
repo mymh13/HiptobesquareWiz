@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 [TestClass]
 public sealed class SquareServiceTests
@@ -76,14 +78,13 @@ public sealed class SquareServiceTests
         // Assert
         Assert.AreEqual(2, fileCount, "A new JSON file should be created when size exceeds 10MB");
     }
-
-    // Mock for DataManager to avoid file I/O in tests
+    
     private sealed class MockDataManager : DataManager
     {
         private readonly List<List<Square>> _jsonFiles = new();
         private bool _forceNewFile;
 
-        public MockDataManager()
+        public MockDataManager() : base(NullLogger<DataManager>.Instance)
         {
             _jsonFiles.Add(new List<Square>()); // Start with one "file"
         }

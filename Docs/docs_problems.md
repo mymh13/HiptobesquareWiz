@@ -1,29 +1,96 @@
-﻿## Problem och lösningar
+﻿# Hiptobesquare: Problem och lösningar
 
-1. **Problem:** Jag får en varning i Square.cs om att "Positional property 'Hiptobesquare.Square.Id/PositionX/PositionY' is never accessed (except in implicit Equals/ToString implementations)"
-   - **Lösning:** Jag la till en metod som returnerar fälten bara för att slippa varningen. Det är inte nödvändigt att använda fälten i det här fallet.
-   
-2. **Problem:** Namngivning och struktur var inte konsekvent. Jag startade projekted med namngivning i Linux-stil, lowercase och underscore_, men eftersom detta primärt är ett C#-projekt så är det mer enhetligt med PascalCase och camelCase.
-   - **Lösning:** Jag arkiverade det ursprungliga GitHub-repot och skapade en ny med PascalCase-namngivning. Jag ändrade även namngivningen i koden och i filstrukturen, samt la till så Rider använde top-level statements så vi kan hålla koll på namespaces och filer.
-   
-3. Fick problem med TailwindCSS, bash och shell lyckas inte exekvera Tailwind. Vill poängtera att jag aldrig installerat detta tidigare och varken ChatGPT eller den officiella dokumentationen kunde hjälpa mig.
-   - **Lösning:** En installationsvideo på Youtube: https://youtu.be/sHnG8tIYMB4?si=9fp8mlDs71_Y8hDa) visar ett antal steg som saknas i den officiella dokumentaitonen.
+### 1. Varningsmeddelande i `Square.cs`
+**Problem:**  
+Varning i `Square.cs`: *"Positional property 'Hiptobesquare.Square.Id/PositionX/PositionY' is never accessed (except in implicit Equals/ToString implementations)"*.
 
-4. **Problem:** Jag får problem när jag testar endpoints: Backend kör igång som det skall men tar inte emot anrop (GET, POST, DELETE) från frontend.
-   - **Lösning:** Det var åtkomstdirektivet i konstruktorn i DataManager som jag hade satt till protected, när jag justerade den till public så fungerade det.
+**Lösning:**  
+La till en metod som returnerar fälten för att eliminera varningen, även om den inte påverkar funktionaliteten.
 
-5. **Problem:** Jag får problem med att skapa en ny JSON-fil.
-   - **Lösning:** För att skydda square hade jag byggt SquareDto som en record, men ASP.NET Core kan inte binda en record till en POST-request. Jag bytte till en klass och då fungerade det. Då blev det följdproblem med att DataManager inte injicerades rätt, så det blev lite refaktorering där också.
+---
 
-6. **Problem:** Jag noterar att mina CSS-inställningar blir overridade och färg och form blir felaktiga. ChatGPT är inte behjälplig i detta, den föreslår konsekvent att köra a) ominstallation (med felaktiga kommandon, se punkt #3 ovan), b) att lägga till filer som "saknas" (de är en del av en gammal filstruktur som inte förekommer längre i Tailwind 4), c) lägga till importer (components, samt andra är mergad in i utilities) som är föråldrade (ersatt med preflight)/flyttade i Tailwind 4, eller d) att felsöka genom att lägga till mängder med kod för att se vad som overridar vad. 
-    - **Lösning:** Jag rensar CSS till ett minimum och gör en enkel struktur utan design och bygger därifrån. Det visar sig att index.css overridar App.css, men eftersom Tailwind kör denna struktur och importerar i index-filen så tänker jag att det finns två lösningar:
-    - 1. Jag kan hacka grundstrukturen i index.css på klassiskt vis, det är en väldigt enkel design.
-    - 2. Rensa index.css till ett minimum och bygga på det i App.css. Jag väljer det senare alternativet. 
+### 2. Namngivning och struktur
+**Problem:**  
+Inkonsekvent namngivning – frontend använde `lower_case`, men projektet startades i backend, i C#, där PascalCase/camelCase är standard.
 
-7. **Problem:** Back- och frontend pratade direkt med varandra, det var bara en minimal justering i variabelnamn (.NET körde CamelCase och React lowercase). Ett större problem kom när jag skulle skapa kvadraterna, jag har ju aldrig jobbat med React (men har scriptat lite). Jag fick problem med renderingen. Kvadraterna hamnade på positioner lite här och där. När jag refreshar sidan så ligger de snyggt och prydligt uppradade. Det indikerar att de lagrade positionerna i backend är korrekta, men att de hamnar fel när de dynamiskt läggs till. Det bör vara någon inkonsekvens mellan initial load (GET) och add (POST).
-    - **Lösning:** Flex-wrap i Tailwind påverkade deploymentpositionerna på något sätt, jag förstod inte riktigt vad faktiskt men jag kunde felsöka (la in consol-loggar) för att se om positionerna på rutorna var rätt. Backloggen visade alltid samma som de indexpositioner React gav dem så då var det tydligt att det var något med rendering eller CSS.
+**Lösning:**
+- Arkiverade det ursprungliga GitHub-repot och skapade en ny version med **konsekvent PascalCase**.
+- Justerade kod och filstruktur.
+- Anpassade Rider för att hantera **top-level statements** korrekt.
 
-8. **Problem:** När jag justerade hårdkodade värden (localhost) till dynamiska .env-filer så får jag problem med pathing (jag skriver json i \bin\Debug\net9.0\ istället för i \Data\). Det här har hänt mig många gånger förut, .NET hanterar relativa paths på det här viset så jag brukar hantera det enligt nedan:
-    - **Lösning:** Jag lägger in denna kodsträng i DatabaseManager.cs: private static readonly string BaseDirectory = Path.GetFullPath(
-      Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data")
-      ); och sedan använder jag den som bas-path for funktioner som letar efter filer i projektet.
+---
+
+### 3. Problem med TailwindCSS-installation
+**Problem:**  
+Shell/Bash misslyckades med att köra Tailwind. Varken ChatGPT eller Tailwinds officiella dokumentation hjälpte.
+
+**Lösning:**  
+En installationsvideo visade att vissa steg saknades:  
+[YouTube: Install Tailwind i Vite](https://youtu.be/sHnG8tIYMB4?si=9fp8mlDs71_Y8hDa)
+
+Efter att ha följt dessa steg funderade det som det skulle, även om filstrukturen inte blev optimal.
+
+---
+
+### 4. Backend tar inte emot API-anrop
+**Problem:**  
+GET, POST och DELETE-anrop fungerade inte från frontend.
+
+**Lösning:**
+- Åtkomstdirektivet i `DataManager`-konstruktorn var **protected** istället för **public**.
+- Efter att ha justerat det fungerade API-kommunikationen.
+
+---
+
+### 5. JSON-fil skapas inte vid POST-anrop
+**Problem:**  
+Backend accepterade POST-anrop men skapade ingen `squares_1.json`.
+
+**Lösning:**
+- **ASP.NET Core kan inte binda records till en POST-request**. `SquareDto` var en **record**, men behövde vara en **klass**.
+- När `SquareDto` konverterades till en **klass** fungerade det.
+- Efter den ändringen behövde även **DataManager** refaktoreras för att injiceras korrekt.
+
+---
+
+### 6. TailwindCSS overridar designen
+**Problem:**  
+Vissa CSS-regler fungerade inte som förväntat. ChatGPT var inte behjälplig heller, den föreslog åtgärder som var **föråldrade eller irrelevanta** p.g.a. Tailwind 4.
+
+**Lösning:**
+1. Rensade `index.css` och `App.css` helt och hållet (kommenterade ut kod och la till sektion för sektion).
+2. Identifierade att **Tailwinds preflight** overridade Reacts styling.
+3. Löste det genom att **använda Tailwind-klasser direkt i JSX** och låta `index.css` hantera globala inställningar.
+
+--- 
+
+### 7. Kvadrater renderas fel vid dynamisk inladdning
+**Problem:**  
+Vid första sidladdning såg kvadraterna rätt ut, men när de lades till genom knapp-tryck hamnade de fel.
+
+**Lösning:**
+- Felet berodde på att **Tailwinds `flex-wrap` påverkade layouten på ett oförutsägbart sätt**.
+- **Lösning:** Tog bort `flex-wrap` och justerade kvadrat-positioneringen i **React state** istället.
+
+---
+
+### 8. .NET skriver JSON-filer i fel katalog
+**Problem:**  
+Efter övergången till `.env`-variabler istället för hårdkodade värden, började `.NET` skapa JSON-filer i `bin/Debug/net9.0/` istället för `/Data/`.
+
+**Lösning:**
+- `.NET` hanterar relativa paths annorlunda vid runtime.
+- Lösningen var att justera `BaseDirectory` i `DataManager.cs`:
+
+```csharp
+private static readonly string BaseDirectory = Path.GetFullPath(
+    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data"));
+```
+
+---
+
+### Summering och reflektion
+
+- Att jag skulle få problem med React och Tailwind vad väntat, har aldrig jobbat med dem förut, men om det var logiskt att förstå att Tailwind skriver över CSS-regler så var det inte alls lika uppenbart att det skulle påverka layouten. Att det var en så enkel lösning som att ta bort `flex-wrap` var inte heller något jag hade förväntat mig. Det här var det enskilt största problemet under hela projektet.
+
+- Alla andra problem var relativt små och/eller sådant jag sett förut, men lärde mig en ny sak: Records i C# kan inte bindas till POST-anrop. Jag skrev Square och SquareDto som klasser först men refaktorerade om de till records för att följa minimalist-principen. Att det skulle ställa till problem och kräva refaktorering i DataManager var oväntat.
