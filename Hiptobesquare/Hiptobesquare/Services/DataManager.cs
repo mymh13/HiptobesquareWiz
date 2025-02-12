@@ -5,10 +5,9 @@ using Microsoft.Extensions.Logging;
 
 public class DataManager
 {
-    // Path to the base directory of the project, .NET adds a bin/Debug/net9.0/ folder to the path
-    private static readonly string BaseDirectory = Path.GetFullPath(
-        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data")
-    );
+    // Primary: HOME for Azure, Secondary: .NET adds a bin/Debug/net9.0/ folder to the path
+    private static readonly string BaseDirectory = Environment.GetEnvironmentVariable("HOME") 
+        ?? Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data"));
     
     private static readonly string IndexFile = Path.Combine(BaseDirectory, "index.json");
     private const long MaxFileSize = 10 * 1024 * 1024; // 10 MB max file size
