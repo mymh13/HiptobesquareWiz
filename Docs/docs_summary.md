@@ -2,25 +2,39 @@
 
 ## Summering av projektet:
 
--  
-
-## Justeringar för att bli redo för deployment: 
-
-1. La till två .env-filer för att hantera miljövariabler i frontend, och två .env-filer i backend.
-2. Justerade .gitignore för att ignorera production-filerna, men inkludera development-filerna i repot.
-3. Justerade Program.cs och App.jsx för att hantera miljövariabler instället för hårdkodade värden.
-- Nu bör vi kunna köra projektet i utvecklingsmiljö och i produktion, dynamiskt.
+- **Lärorik och rolig process:** Projektet har varit otroligt givande, både i lärande och problemlösning. Att arbeta med React utan tidigare erfarenhet var en utmaning, men jag lyckades hitta lösningar och anpassa mig snabbt.
+- **Tydlig strategi och genomförande:** Jag har alltid haft en plan för projektet, även om lösningarna ibland har behövt utforskas under vägen. Genom att följa den övergripande arkitekturen (och följa mina två ledstjärnor: minimalism och "skala oändligt") kunde jag ta genomtänkta beslut.
+- **Nöjd med resultatet:** Projektet är komplett och väldokumenterat. Jag har lärt mig mycket och haft kul. Designen hade kunnat vara mer visuellt tilltalande, men prioriteringen låg på funktionalitet och arkitektur.
 
 ---
 
-## Disclaimer och not om mjukvara, hjälpmedel/LLM-verktyg:
+## Mjukvara, hjälpmedel och LLM-verktyg:
 
-Jag kommer att använda hjälpmedel i form av LLMer och officiell dokumentation (primärt troligtvis Microsoft Learn och Reacts officiella dokumentation).
+### Verktyg och resurser
+1. **Utvecklingsmiljö:** Kodade .NET och markdown i JetBrains Rider.
+2. **Dokumentation:** Huvudsakligen Microsoft Learn, React och Tailwinds officiella dokumentation. En YT-video.
+3. **GitHub Copilot:** Användes som stöd för att generera kodsnuttar och dokumentation.
+4. **Externa LLM-verktyg:** ChatGPT för att bolla idéer och få vägledning, särskilt inom React där jag saknade erfarenhet.
 
-1. **Mjukvara:** Kodar .NET och dokumenterar markdown i Jetbrains Rider.
-2. **Dokumentation:** Primärt Microsoft Learn och Reacts officiella dokumentation.
-3. **CoPilot:** Jag har GitHubs CoPilot installerat som hjälpmedel för att generera kodsnuttar och dokumentation.
-4. **Extern LLM:** När jag har begränsad kunskap, vilket bland annat är fallet primärt med React, kommer jag att använda mig av externa LLMer för att framförallt bolla frågeställningar ("om jag vill göra X för att få resultat Y med kodstrukturen jag presenterar här `presenterar kod-arkitektur`, vilka verktyg finns i React och hur kan jag lägga upp det?"). Vill notera två saker där:
-    - Primärt när jag arbetar med LLMer så brukar jag skriva metoder och klasser själv och be om hjälp att se vilka verktyg som finns tillgängliga, sedan brukar jag skriva koden själv (med hjälp av CoPilots autocomplete för att snabba på processen).
-    - Jag ber generellt om kortare segment som jag sedan går igenom och modifierar själv, för att förstå koden, jag copy-pastar inte stora kodblock och bara förutsätter att de fungerar.
-    - Om jag använder mig av LLM i ett segment så kommer jag notera det i dokumentationen.
+### Balans mellan egna kunskaper och LLM-verktyg
+- **Arkitektur och planering:** 95%+ egna lösningar.
+- **Backend:** 90% egna lösningar, 5% dokumentation, 5% LLM-verktyg.
+- **Testning:** 70% egna lösningar, 30% LLM-verktyg – min arkitektur, CoPilot fick fylla ut metoderna.
+- **Frontend:** 50% egna lösningar, 45% LLM-verktyg, 5% dokumentation. Installation och initial kodstruktur krävde mer stöd, men jag tog över mer under projektets gång. När jag hade syntaxen så kunde jag justera innehållet.
+
+### Hur LLM-verktyg användes
+- **Koden skrevs och justerades manuellt, med LLM som ett stöd för att effektivisera arbetsflödet.**
+- **Dokumentationen gjorde jag on-the-fly medan jag arbetade.** Ex: strukturella val under resans gång, eller problem som jag fastnade i, då noterade jag problematiken/valen och lösningen innan jag fortsatte. Bad sedan ChatGPT om hjälp att komprimera underlaget. Därefter läste jag igenom allting och la sista handen innan jag lade till det i dokumentationen.
+
+---
+
+## Slutsats
+
+Projektet har gett mig insikter i React, Tailwind, API-integration och bra träning på problemlösning/design. Genom en kombination av självständig problemlösning, officiell dokumentation och LLM-verktyg har jag lyckats bygga en fungerande och optimerad applikation.
+
+#### Det har varit oerhört givande på många sätt:
+- Jag har haft kul, först och främst!
+- Känner en förståelse men också att mina egenskaper passar bra till just detta, felsökningen har fungerat och jag har kunnat hantera helt nya tekniker.
+- Har fått nya kunskaper om tekniska lösningar, och en förståelse för när det kan vara fördelaktigt att använda sig av verktyg som React och Tailwind.
+
+---

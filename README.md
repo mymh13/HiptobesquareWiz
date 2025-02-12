@@ -6,7 +6,7 @@ https://github.com/Wizardworks-AB/programmeringsuppgift
 ### Detta specifika projekt har skapats av https://github.com/mymh13  våren 2025.
 Repository för detta projekt finns här: https://github.com/mymh13/HiptobesquareWiz
 
-Vill försöka hålla detta så enkelt och koncist som möjligt, så, besök docs om det är dokumentation du söker!  
+Vill försöka hålla detta så enkelt och koncist som möjligt, så, **besök docs om det är dokumentation du söker**!  
 Lånar du någonting av detta projekt, så lämna gärna en kommentar i koden eller i dokumentationen med en referens hit, tack!  
 
 ---
@@ -48,7 +48,7 @@ Hiptobesquare/
 │   │   ├── MSTestSettings.cs       # Inställningar för MSTest  
 │   │   └── SquareServiceTests.cs   # Test av SquareService  
 │   │  
-│   └── Logs/                       # Loggfiler från tester   
+│   └── Logs/                       # Loggfiler  
 │   
 ├── hiptobesquare-frontend/  
 │   ├── tailwindcss4/  
