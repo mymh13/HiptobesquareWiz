@@ -13,7 +13,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 // Load Environment Variables
-var frontendUrl = builder.Configuration["FRONTEND_URL"] ?? "http://localhost:5173";
+var backendUrl = builder.Configuration["BACKEND_URL"] ?? "http://localhost:5173";
 var port = builder.Configuration["API_PORT"] ?? "5000";
 var httpsPort = builder.Configuration["API_HTTPS_PORT"] ?? "5001";
 
@@ -37,7 +37,7 @@ var app = builder.Build();
 
 // Enable CORS (for frontend integration)
 app.UseCors(policy =>
-    policy.WithOrigins(frontendUrl)
+    policy.WithOrigins(backendUrl)
         .AllowAnyMethod()
         .AllowAnyHeader());
 
