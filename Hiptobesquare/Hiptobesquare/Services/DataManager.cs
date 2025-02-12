@@ -5,53 +5,46 @@ using Microsoft.Extensions.Logging;
 
 public class DataManager
 {
-    private const string DataDirectory = "Data";
-    private const string IndexFile = "index.json";
-    private const long MaxFileSize = 10 * 1024 * 1024; // 10 Mb
+    // Path to the base directory of the project, .NET adds a bin/Debug/net9.0/ folder to the path
+    private static readonly string BaseDirectory = Path.GetFullPath(
+        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data")
+    );
+    
+    private static readonly string IndexFile = Path.Combine(BaseDirectory, "index.json");
+    private const long MaxFileSize = 10 * 1024 * 1024; // 10 MB max file size
     private readonly ILogger<DataManager> _logger;
     
     public DataManager(ILogger<DataManager> logger)
     {
         _logger = logger;
-        Directory.CreateDirectory(DataDirectory);
+
+        if (!Directory.Exists(BaseDirectory))
+        {
+            Directory.CreateDirectory(BaseDirectory);
+        }
     }
     
     public virtual async Task<IEnumerable<Square>> ReadSquaresAsync()
     {
         try
         {
-            var files = Directory.GetFiles(DataDirectory, "squares_*.json");
+            var files = Directory.GetFiles(BaseDirectory, "squares_*.json");
             var squares = new List<Square>();
 
             foreach (var file in files)
             {
                 var jsonContent = await File.ReadAllTextAsync(file);
-                
-                if (string.IsNullOrWhiteSpace(jsonContent))
-                {
-                    _logger.LogWarning($"Skipping empty file: {file}");
-                    continue;
-                }
+                if (string.IsNullOrWhiteSpace(jsonContent)) continue;
 
-                try
-                {
-                    var deserialized = JsonSerializer.Deserialize<List<Square>>(jsonContent);
-                    if (deserialized is not null)
-                    {
-                        squares.AddRange(deserialized);
-                    }
-                }
-                catch (JsonException jsonEx)
-                {
-                    _logger.LogError(jsonEx, $"JSON Error deserializing file: {jsonEx.Message}");
-                }
+                var deserialized = JsonSerializer.Deserialize<List<Square>>(jsonContent);
+                if (deserialized != null) squares.AddRange(deserialized);
             }
             
             return squares;
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error reading squares: {ex.Message}");
+            _logger.LogError(ex,$"Error reading squares: {ex.Message}");
             return new List<Square>();
         }
     }
@@ -91,11 +84,11 @@ public class DataManager
     {
         try
         {
-            foreach (var file in Directory.GetFiles(DataDirectory, "squares_*.json"))
+            foreach (var file in Directory.GetFiles(BaseDirectory, "squares_*.json"))
             {
                 File.Delete(file);
             }
-            await File.WriteAllTextAsync(Path.Combine(DataDirectory, IndexFile), "[]");
+            await File.WriteAllTextAsync(Path.Combine(BaseDirectory, IndexFile), "[]");
         }
         catch (Exception ex)
         {
@@ -105,13 +98,14 @@ public class DataManager
 
     private string GetOrCreateFile()
     {
-        var files = Directory.GetFiles(DataDirectory, "squares_*.json").OrderBy(f => f).ToList();
+        var files = Directory.GetFiles(BaseDirectory, "squares_*.json").OrderBy(f => f).ToList();
         var currentFile = files.LastOrDefault();
 
         if (currentFile == null || new FileInfo(currentFile).Length > MaxFileSize)
         {
             int nextFileNumber = files.Count + 1;
-            currentFile = Path.Combine(DataDirectory, $"squares_{nextFileNumber}.json");
+            currentFile = Path.Combine(BaseDirectory, $"squares_{nextFileNumber}.json");
+            
             File.WriteAllText(currentFile, "[]");
         }
 

@@ -22,3 +22,8 @@
 
 7. **Problem:** Back- och frontend pratade direkt med varandra, det var bara en minimal justering i variabelnamn (.NET körde CamelCase och React lowercase). Ett större problem kom när jag skulle skapa kvadraterna, jag har ju aldrig jobbat med React (men har scriptat lite). Jag fick problem med renderingen. Kvadraterna hamnade på positioner lite här och där. När jag refreshar sidan så ligger de snyggt och prydligt uppradade. Det indikerar att de lagrade positionerna i backend är korrekta, men att de hamnar fel när de dynamiskt läggs till. Det bör vara någon inkonsekvens mellan initial load (GET) och add (POST).
     - **Lösning:** Flex-wrap i Tailwind påverkade deploymentpositionerna på något sätt, jag förstod inte riktigt vad faktiskt men jag kunde felsöka (la in consol-loggar) för att se om positionerna på rutorna var rätt. Backloggen visade alltid samma som de indexpositioner React gav dem så då var det tydligt att det var något med rendering eller CSS.
+
+8. **Problem:** När jag justerade hårdkodade värden (localhost) till dynamiska .env-filer så får jag problem med pathing (jag skriver json i \bin\Debug\net9.0\ istället för i \Data\). Det här har hänt mig många gånger förut, .NET hanterar relativa paths på det här viset så jag brukar hantera det enligt nedan:
+    - **Lösning:** Jag lägger in denna kodsträng i DatabaseManager.cs: private static readonly string BaseDirectory = Path.GetFullPath(
+      Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Data")
+      ); och sedan använder jag den som bas-path for funktioner som letar efter filer i projektet.
