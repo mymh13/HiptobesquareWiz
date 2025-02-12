@@ -6,8 +6,8 @@ https://github.com/Wizardworks-AB/programmeringsuppgift
 ### Detta specifika projekt har skapats av https://github.com/mymh13  våren 2025.
 Repository för detta projekt finns här: https://github.com/mymh13/HiptobesquareWiz
 
-Vill försöka hålla detta så enkelt och koncist som möjligt, så, besök docs om det är dokumentation du söker!
-Tack för att du läste, lycka till med projektet om du bestämmer dig för att använda det!  
+Vill försöka hålla detta så enkelt och koncist som möjligt, så, besök docs om det är dokumentation du söker!  
+Lånar du någonting av detta projekt, så lämna gärna en kommentar i koden eller i dokumentationen med en referens hit, tack!  
 
 ---
 
@@ -17,12 +17,19 @@ Hiptobesquare/
 ├── Docs/  
 │   ├── docs_backend.md             # Dokumentation för backend  
 │   ├── docs_frontend.md            # Dokumentation för frontend  
-│   └── docs_problems.md            # Dokumentation av problem under utvecklingsprocessen  
+│   ├── docs_problems.md            # Dokumentation av problem under utvecklingsprocessen  
+│   └── docs_summary.md             # Sammanfattning av projektet 
 │  
 ├── Hiptobesquare/  
+│   ├── Controllers/  
+│   │   └── SquareController.cs      # API-Controller för kvadrater  
+│   │  
 │   ├── Data/  
-│   │   └── squares_1.json          # Lagring av JSON-data  
+│   │   ├── squares_1.json           # JSON-fil för kvadrater  
+│   │   └── index.json               # Index-fil för JSON-lagring  
+│   │    
 │   ├── Logs/                       # Loggfiler för API och anslutningar  
+│   │  
 │   ├── Services/  
 │   │   ├── DataManager.cs          # Hanterar JSON-filer  
 │   │   ├── LoggingService.cs       # Hanterar loggning  
@@ -30,10 +37,11 @@ Hiptobesquare/
 │   │   ├── MiddlewareExtensions.cs # Logging och Exception Middleware  
 │   │   └── SquareService.cs        # Logik för att hantera kvadrater  
 │   │  
-│   ├── Program.cs                  # Minimal API-hantering  
-│   ├── Startup.cs                  # Registrerar API-endpoints  
+│   ├── Program.cs                  # Minimal API-hantering   
 │   ├── Square.cs                   # Modell för en kvadrat  
-│   └── SquareDto.cs                # DTO för inkommande data  
+│   ├── SquareDto.cs                # DTO för inkommande data  
+│   ├── .env.development            # Backend-miljövariabler för lokal utveckling  
+│   └── .env.production             # Backend-miljövariabler för produktion  
 │  
 ├── Hiptobesquare.Tests/  
 │   ├── Services/  
@@ -42,5 +50,15 @@ Hiptobesquare/
 │   │  
 │   └── Logs/                       # Loggfiler från tester   
 │   
+├── hiptobesquare-frontend/  
+│   ├── tailwindcss4/  
+│   │   ├── src/  
+│   │   │   ├── App.jsx              # React huvudkomponent  
+│   │   │   ├── index.css            # Global CSS  
+│   │   │   ├── App.css              # Specifik CSS för App  
+│   │   │   └── main.jsx             # React entry-point  
+│   │   ├── .env.development         # Frontend miljövariabler för lokal utveckling  
+│   │   └── .env.production          # Frontend miljövariabler för produktion  
+│  
 ├── LICENSE                         # Projektlicens  
 └── README.md                       # Dokumentation och projektinfo  
