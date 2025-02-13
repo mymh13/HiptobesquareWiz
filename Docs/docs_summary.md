@@ -32,9 +32,17 @@
 
 Projektet har gett mig insikter i React, Tailwind, API-integration och bra träning på problemlösning/design. Genom en kombination av självständig problemlösning, officiell dokumentation och LLM-verktyg har jag lyckats bygga en fungerande och optimerad applikation.
 
-#### Det har varit oerhört givande på många sätt:
+#### Det har varit oerhört givande på många sätt
 - Jag har haft kul, först och främst!
 - Känner en förståelse men också att mina egenskaper passar bra till just detta, felsökningen har fungerat och jag har kunnat hantera helt nya tekniker.
 - Har fått nya kunskaper om tekniska lösningar, och en förståelse för när det kan vara fördelaktigt att använda sig av verktyg som React och Tailwind.
 
 ---
+
+## Uppdatering några dagar senare
+
+Jag provade att hosta backend på Azure App Services (Web App) och använde Azure CLI för deployment:
+- dotnet publish för att bygga .NET
+- az webapp deploy för att deploya till Azure
+- frontend ligger separat på en Apache-baserad service som inte tar .NET
+- Azure Web App är Free tier (F1) och fungerar bra för detta projekt

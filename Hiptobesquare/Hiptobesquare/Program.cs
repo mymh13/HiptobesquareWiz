@@ -14,14 +14,21 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 // Load Environment Variables
 var backendUrl = builder.Configuration["BACKEND_URL"] ?? "http://localhost:5173";
-var port = builder.Configuration["API_PORT"] ?? "5000";
-var httpsPort = builder.Configuration["API_HTTPS_PORT"] ?? "5001";
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080"; // Default HTTP Port
+var httpsPort = Environment.GetEnvironmentVariable("HTTPS_PORT") ?? "8443"; // Default HTTPS Port
+
+// Determine if running in Azure
+bool isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
 
 // Configure Kestrel dynamically based on environment
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(int.Parse(port)); // HTTP
-    options.ListenAnyIP(int.Parse(httpsPort), listenOptions => listenOptions.UseHttps()); // HTTPS
+
+    if (!isAzure) // Only enable HTTPS for local development
+    {
+        options.ListenAnyIP(int.Parse(httpsPort), listenOptions => listenOptions.UseHttps());
+    }
 });
 
 // Configure logging and rate limiting
