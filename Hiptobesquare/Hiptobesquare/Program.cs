@@ -1,68 +1,68 @@
 ﻿using dotenv.net;
 using Hiptobesquare.Services;
 
-// Load environment variables from .env file
+// Values section: environment variables, create the builder, set the ports, Azure check
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure JSON serialization settings
+var backendUrl = builder.Configuration["BACKEND_URL"] ?? "http://localhost:5173";
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var httpsPort = Environment.GetEnvironmentVariable("API_HTTPS_PORT") ?? "443";
+var isAzure = Environment.GetEnvironmentVariable("RUNNING_IN_AZURE") == "true";
+
+// Configure section: Kestrel (reverse proxy) and JSON options
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
+    // PropertyNamingPolicy = Preserve case, so that C# properties match JSON properties: Do not touch!
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
-// Load Environment Variables
-var backendUrl = builder.Configuration["BACKEND_URL"] ?? "http://localhost:5173";
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080"; // Default HTTP Port
-var httpsPort = Environment.GetEnvironmentVariable("HTTPS_PORT") ?? "8443"; // Default HTTPS Port
-
-// Determine if running in Azure
-bool isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
-
-// Configure Kestrel dynamically based on environment
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(int.Parse(port)); // HTTP
+    options.ListenAnyIP(int.Parse(port));
 
-    if (!isAzure) // Only enable HTTPS for local development
+    if (!isAzure)
     {
         options.ListenAnyIP(int.Parse(httpsPort), listenOptions => listenOptions.UseHttps());
     }
 });
 
-// Configure logging and rate limiting
+// Register section: Middleware (logging, rate limiting), application services and CORS-policy
 LoggingService.Configure(builder);
 RateLimitingService.Configure(builder);
 
-// Register application services
 builder.Services.AddSingleton<DataManager>();
 builder.Services.AddLogging();
 builder.Services.AddSingleton<SquareService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(backendUrl)
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+// Build section: Build the application, use CORS, middleware, API controllers
 var app = builder.Build();
 
-// Enable CORS (for frontend integration)
-app.UseCors(policy =>
-    policy.WithOrigins(backendUrl)
-        .AllowAnyMethod()
-        .AllowAnyHeader());
+app.UseCors("AllowFrontend");
 
-// Enable necessary middlewares
 app.UseLoggingMiddleware();
 app.UseRateLimiter();
 app.UseExceptionHandlerMiddleware();
 
-// Register API controllers
 app.MapControllers();
 
-// Log API startup information
-foreach (var endpoint in app.Urls)
-{
-    Console.WriteLine($"API running on {endpoint}");
-}
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("==== API Server Started ====");
+logger.LogInformation("Environment: {Environment}", isAzure ? "Azure" : "Local Development");
+logger.LogInformation("Listening on: {Urls}", string.Join(", ", app.Urls));
+logger.LogInformation("============================");
 
-// Global middleware for request logging and exception handling
 app.Use(async (context, next) =>
 {
     try
@@ -77,4 +77,5 @@ app.Use(async (context, next) =>
     }
 });
 
+// Run section: Run the application
 app.Run();
